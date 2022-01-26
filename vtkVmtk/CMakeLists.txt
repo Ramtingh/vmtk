@@ -37,11 +37,6 @@ configure_file(
   ${VTK_VMTK_BINARY_DIR}/vtkvmtkConfigure.h
   )                                                                                                  
 
-if(APPLE)
-  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-dylib_file,/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib")
-  set(CMAKE_EXE_LINKER_FLAGS "-Wl,-dylib_file,/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib")
-endif()
-
 option(VTK_VMTK_BUILD_TETGEN "Build TetGen and TetGen wrapper. Check TetGen license before you activate this." ON)
 
 option(VTK_VMTK_BUILD_STREAMTRACER "Build static temporal stream tracer." ON)
