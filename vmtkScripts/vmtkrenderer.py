@@ -293,7 +293,15 @@ class vmtkRenderer(pypes.pypeScript):
 
         if interactive:
             self.RenderWindowInteractor.Start()
-
+    def SetupRenderInteractor(self):
+            self.RenderWindowInteractor = vtk.vtkRenderWindowInteractor()
+            #if 'vtkCocoaRenderWindowInteractor' in dir(vtk) and vtk.vtkCocoaRenderWindowInteractor.SafeDownCast(self.RenderWindowInteractor):
+            #    self.RenderWindowInteractor = vtkvmtk.vtkvmtkCocoaRenderWindowInteractor()
+            self.RenderWindow.SetInteractor(self.RenderWindowInteractor)
+            self.RenderWindowInteractor.SetInteractorStyle(vtkvmtk.vtkvmtkInteractorStyleTrackballCamera())
+            self.RenderWindowInteractor.GetInteractorStyle().KeyPressActivationOff()
+            self.RenderWindowInteractor.GetInteractorStyle().AddObserver("CharEvent",self.CharCallback)
+            self.RenderWindowInteractor.GetInteractorStyle().AddObserver("KeyPressEvent",self.KeyPressCallback)
     def Initialize(self):
 
         if not self.Renderer:
@@ -306,15 +314,7 @@ class vmtkRenderer(pypes.pypeScript):
             self.RenderWindow.SetPointSmoothing(self.PointSmoothing)
             self.RenderWindow.SetLineSmoothing(self.LineSmoothing)
             self.RenderWindow.SetPolygonSmoothing(self.PolygonSmoothing)
-            self.RenderWindowInteractor = vtk.vtkRenderWindowInteractor()
-            #if 'vtkCocoaRenderWindowInteractor' in dir(vtk) and vtk.vtkCocoaRenderWindowInteractor.SafeDownCast(self.RenderWindowInteractor):
-            #    self.RenderWindowInteractor = vtkvmtk.vtkvmtkCocoaRenderWindowInteractor()
-            self.RenderWindow.SetInteractor(self.RenderWindowInteractor)
-            self.RenderWindowInteractor.SetInteractorStyle(vtkvmtk.vtkvmtkInteractorStyleTrackballCamera())
-            self.RenderWindowInteractor.GetInteractorStyle().KeyPressActivationOff()
-            self.RenderWindowInteractor.GetInteractorStyle().AddObserver("CharEvent",self.CharCallback)
-            self.RenderWindowInteractor.GetInteractorStyle().AddObserver("KeyPressEvent",self.KeyPressCallback)
-
+            self.SetupRenderInteractor()
             self.AddKeyBinding('x','Take screenshot.',self.ScreenshotCallback,'0')
             self.AddKeyBinding('r','Reset camera.',self.ResetCameraCallback,'0')
             #self.AddKeyBinding('w','Show wireframe.',None,'0')

@@ -205,6 +205,7 @@ class pypeScript(object):
             pass
 
     def InputText(self,prompt='',validator=None):
+        self.vmtkRenderer.SetupRenderInteractor()
         self.OutputText(prompt)
         try:
             self.InputStream.prompt(prompt)
